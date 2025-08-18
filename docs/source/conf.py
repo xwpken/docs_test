@@ -7,8 +7,8 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('../..')) 
 
-if '/docs' in str(sys.path):
-    sys.path.remove('/docs')
+# if '/docs' in str(sys.path):
+#     sys.path.remove('/docs')
 
 
 # -- Project information -----------------------------------------------------
@@ -124,5 +124,8 @@ html_css_files = [
     'custom.css',  
 ]
 
-html_extra_path = ['_static/ga.html']  
-html_js_files = ['ga.html']
+# -- Google Analytics --
+html_js_files = [
+    ('https://www.googletagmanager.com/gtag/js?id=G-S7JPFNRMER', {'async': ''}),
+    ('data:text/javascript;base64,d2luZG93LmRhdGFMYXllcj13aW5kb3cuZGF0YUxheWVyfHxbXTtmdW5jdGlvbiBndGFnKCl7ZGF0YUxheWVyLnB1c2goYXJndW1lbnRzKX1ndGFnKCdqcycsbmV3IERhdGUoKSk7Z3RhZygnY29uZmlnJywnRy1TN0pQRk5STUVSJyk7', {})
+]
