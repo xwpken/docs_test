@@ -123,3 +123,6 @@ html_static_path = ['_static']
 html_css_files = [
     'custom.css',  
 ]
+
+html_extra_path = ['_static/ga.html']  
+html_js_files = ['ga.html']
