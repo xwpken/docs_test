@@ -124,6 +124,14 @@ html_css_files = [
     'custom.css',  
 ]
 
+
+GA_ID = "G-S7JPFNRMER"
+
 html_js_files = [
-    'js/google-analytics.js'
+    (f'https://www.googletagmanager.com/gtag/js?id={GA_ID}', {'async': ''}),
+    (f'data:text/javascript;charset=utf-8,'
+     f'window.dataLayer=window.dataLayer||[];'
+     f'function gtag(){{dataLayer.push(arguments);}}'
+     f'gtag("js",new Date());'
+     f'gtag("config","{GA_ID}");', {})
 ]
