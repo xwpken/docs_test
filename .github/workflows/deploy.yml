@@ -4,8 +4,10 @@ on:
   push:
     branches: [ main ]
 
-permissions:  
+permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   deploy:
@@ -13,25 +15,38 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  
+          fetch-depth: 0
+          path: main-repo  # 指定检出路径
 
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
 
-      - name: Install pandoc
-        run: sudo apt-get update && sudo apt-get install -y pandoc
+      - name: Debug Python Path
+        run: |
+          echo "Current sys.path:"
+          python -c "import sys; print(sys.path)"
+          echo "Current directory structure:"
+          ls -la
 
       - name: Install dependencies
         run: |
-          pip install -e .
+          cd main-repo
           pip install sphinx sphinx-book-theme myst-parser nbsphinx sphinx-copybutton
-          cd docs && make html
+          sudo apt-get update && sudo apt-get install -y pandoc
+
+      - name: Build docs
+        run: |
+          cd main-repo/docs
+          python -c "import sys; print('Before build:', [p for p in sys.path if 'docs' in p])"
+          make html
+          python -c "import sys; print('After build:', [p for p in sys.path if 'docs' in p])"
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/build/html
-          force_orphan: true  
+          publish_dir: main-repo/docs/build/html
+          publish_branch: gh-pages
+          force_orphan: true
