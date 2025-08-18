@@ -4,10 +4,8 @@ on:
   push:
     branches: [ main ]
 
-permissions:
+permissions:  
   contents: write
-  pages: write
-  id-token: write
 
 jobs:
   deploy:
@@ -15,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -31,14 +29,10 @@ jobs:
           pip install sphinx sphinx-book-theme myst-parser nbsphinx sphinx-copybutton
           cd docs && make html
 
-      - name: Verify build output
-        run: ls -la ./docs/build/html
-
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/build/html
           publish_branch: gh-pages
-          force_orphan: true
-          keep_files: false
+          force_orphan: true  
