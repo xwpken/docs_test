@@ -124,8 +124,6 @@ html_css_files = [
     'custom.css',  
 ]
 
-# -- Google Analytics --
 html_js_files = [
-    ('https://www.googletagmanager.com/gtag/js?id=G-S7JPFNRMER', {'async': ''}),
-    ('data:text/javascript;base64,d2luZG93LmRhdGFMYXllcj13aW5kb3cuZGF0YUxheWVyfHxbXTtmdW5jdGlvbiBndGFnKCl7ZGF0YUxheWVyLnB1c2goYXJndW1lbnRzKX1ndGFnKCdqcycsbmV3IERhdGUoKSk7Z3RhZygnY29uZmlnJywnRy1TN0pQRk5STUVSJyk7', {})
+    'js/google-analytics.js'
 ]

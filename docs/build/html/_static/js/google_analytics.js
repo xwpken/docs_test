@@ -1,3 +1,7 @@
+// Google Analytics
+
+
+document.write(`
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-S7JPFNRMER"></script>
 <script>
@@ -6,3 +10,4 @@
   gtag('js', new Date());
   gtag('config', 'G-S7JPFNRMER');
 </script>
+`);
