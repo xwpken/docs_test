@@ -16,7 +16,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          path: main-repo  # 指定检出路径
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -25,28 +24,29 @@ jobs:
 
       - name: Debug Python Path
         run: |
-          echo "Current sys.path:"
-          python -c "import sys; print(sys.path)"
-          echo "Current directory structure:"
-          ls -la
+          python -c "import sys; print('Raw sys.path:', sys.path)"
+          python -c "import sys; print('String representation:', str(sys.path))"
+          python -c "import sys; print('/docs in str(sys.path)?', '/docs' in str(sys.path))"
+          python -c "import sys; print('/docs in sys.path?', '/docs' in sys.path)"
 
       - name: Install dependencies
         run: |
-          cd main-repo
           pip install sphinx sphinx-book-theme myst-parser nbsphinx sphinx-copybutton
           sudo apt-get update && sudo apt-get install -y pandoc
 
+      - name: Patch sys.path handling
+        run: |
+          sed -i "s|if '/docs' in str(sys.path):|if '/docs' in str(sys.path) and '/docs' in sys.path:|" docs/source/conf.py
+
       - name: Build docs
         run: |
-          cd main-repo/docs
-          python -c "import sys; print('Before build:', [p for p in sys.path if 'docs' in p])"
+          cd docs
           make html
-          python -c "import sys; print('After build:', [p for p in sys.path if 'docs' in p])"
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: main-repo/docs/build/html
+          publish_dir: ./docs/build/html
           publish_branch: gh-pages
           force_orphan: true
